@@ -1,5 +1,8 @@
 package pl.sdaacademy.sms;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class SmsShortener {
 
     private  final String longSms;
@@ -32,16 +35,25 @@ public class SmsShortener {
     public String shortenSms() {
         String[] words = longSms.split(" ");
 
-        StringBuilder shortenedSmsBuilder = new StringBuilder();
+        return Arrays.stream(words)
+                .map(String::trim)
+                .filter(trimmedWord -> !trimmedWord.isEmpty())
+                .map(word -> capitalize(word)).collect(Collectors.joining());
+
+  /*      StringBuilder shortenedSmsBuilder = new StringBuilder();
         for (String word : words) {
-            String trimmeWord = word.trim();
+            //String trimmeWord = word.trim();
             if (!trimmeWord.isEmpty()) {
-                String capitalLetter = trimmeWord.substring(0, 1).toUpperCase();
-                String capitalizedWord = capitalLetter + trimmeWord.substring(1);
+
                 //String upperCaseWord = word.toUpperCase();
                 shortenedSmsBuilder.append(capitalizedWord);
                 }
             }
-            return shortenedSmsBuilder.toString();
+            return shortenedSmsBuilder.toString();*/
         }
+
+    private String capitalize(String word) {
+        String capitalLetter = word.substring(0, 1).toUpperCase();
+        return capitalLetter + word.substring(1);
+    }
 }
